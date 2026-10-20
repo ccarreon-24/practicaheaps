@@ -10,7 +10,42 @@ void Heap::sift_down(std::size_t i) {
   /* TODO CPP1: portar el sift_down de C utilizando parent/left/right
      cuando corresponda, std::swap y std::vector.
      Mejor alternativa: implementar sin swaps, usando un temporal. */
-  (void)i;
+    /*size_t l = left(i);
+    size_t r = right(i);
+    size_t largest = i;
+
+    if(l < data_.size() && data_[l].priority > data_[largest].priority)
+        largest = l;
+    if(r < data_.size() && data_[r].priority > data_[largest].priority)
+        largest = r;
+
+    if(largest != i){
+        Process temp = data_[i];
+        data_[i] = data_[largest];
+        data_[largest] = temp;
+        sift_down(largest);
+    }*/
+
+    Process temp = data_[i];
+
+    while(i < data_.size() / 2){
+        size_t l = left(i);
+        size_t r = right(i);
+        size_t largest = l;
+
+        if(r < data_.size() && data_[r].priority > data_[largest].priority)
+            largest = r;
+
+        if(temp.priority >= data_[largest].priority)
+            break;
+
+        data_[i] = data_[largest];
+
+        i = largest;
+    }
+
+    data_[i] = temp;
+
 }
 
 bool Heap::build(const std::vector<Process>& input) {

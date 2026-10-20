@@ -11,9 +11,41 @@ constexpr bool probar_heap_en_compilacion() {
   if(!h.push({1, 3}) || !h.push({2, 9}) || !h.push({3, 1}))
     return false;
   if(!h.valid()) return false;
+
   auto x = h.pop();
-  return x.has_value() && x->pid == 2 && x->priority == 9 &&
-         h.valid() && h.size() == 2U;
+    if(!x.has_value() || x->pid != 2 || x->priority != 9 || !h.valid()|| h.size() != 2U)
+        return false;
+
+
+    heap23::Heap<0> n;
+    if(n.push({1, 3}))
+        return false;
+
+    auto x2 = n.pop();
+    
+    if(x2.has_value())
+        return false;
+
+    heap23::Heap<5> p;
+    if(!p.push({1, 3}) || !p.push({5, 3}) || !p.push({6, -1}))
+        return false;
+
+    if(!p.valid())
+        return false;
+    
+    auto x3 = p.pop();
+    if(!x3.has_value() || x3->priority!= 3)
+        return false;
+
+    auto x4 = p.pop();
+    if(!x4.has_value() || x4->priority != 3)
+        return false;
+
+    auto x5 = p.pop();
+    if(!x5.has_value() || x5->priority != -1)
+        return false;
+
+    return p.valid();
 }
 static_assert(probar_heap_en_compilacion(), "heap incorrecto");
 
